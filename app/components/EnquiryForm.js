@@ -1,22 +1,32 @@
 'use client'
 
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
 
-export default function EnquiryForm({ roomId }) {
+export default function EnquiryForm({ roomId, roomTitle }) {
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
-    await supabase.from('enquiries').insert({
-      room_id: roomId,
-      name,
-      email,
-      message
+    setLoading(true)
+
+    await fetch('/api/enquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+        roomId,
+        roomTitle
+      })
     })
+
+    setLoading(false)
     setSent(true)
   }
 
@@ -28,7 +38,9 @@ export default function EnquiryForm({ roomId }) {
 
   return (
     <form onSubmit={handleSubmit} className='space-y-4'>
+
       <h3 className='font-semibold'>Enquire about this room</h3>
+
       <input
         required
         placeholder='Your name'
@@ -36,6 +48,7 @@ export default function EnquiryForm({ roomId }) {
         onChange={e => setName(e.target.value)}
         className='w-full border rounded-lg p-3'
       />
+
       <input
         required
         type='email'
@@ -44,18 +57,23 @@ export default function EnquiryForm({ roomId }) {
         onChange={e => setEmail(e.target.value)}
         className='w-full border rounded-lg p-3'
       />
+
       <textarea
         placeholder='Message (optional)'
         value={message}
         onChange={e => setMessage(e.target.value)}
         className='w-full border rounded-lg p-3 h-24'
       />
+
       <button
         type='submit'
-        className='w-full bg-orange-600 text-white py-3 rounded-lg font-medium'
+        disabled={loading}
+        className='w-full bg-orange-600 text-white py-3 rounded-lg font-medium disabled:opacity-50'
       >
-        Send Enquiry
+        {loading ? 'Sending...' : 'Send Enquiry'}
       </button>
+
     </form>
   )
+
 }
