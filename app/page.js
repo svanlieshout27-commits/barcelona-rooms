@@ -1,7 +1,9 @@
 import EnquiryForm from './components/EnquiryForm'
 import Chatbot from './components/Chatbot'
 import { supabase } from './lib/supabase'
+
 export const dynamic = 'force-dynamic'
+
 export default async function Home() {
 
   const { data: rooms } = await supabase
@@ -11,6 +13,10 @@ export default async function Home() {
 
   return (
     <main className='max-w-6xl mx-auto p-8'>
+
+      <div className='mb-8 pb-6 border-b'>
+        <p className='text-orange-600 font-semibold text-sm tracking-wide'>SVL</p>
+      </div>
 
       <h1 className='text-4xl font-bold mb-2'>Rooms in Barcelona</h1>
 
@@ -52,3 +58,4 @@ export default async function Home() {
   )
 
 }
+```
