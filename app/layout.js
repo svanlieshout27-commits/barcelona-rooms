@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Rooms in Barcelona | Sebastiaan",
+  title: "Rooms in Barcelona | SVL",
   description: "Hand-picked rooms in Barcelona. Ask our AI assistant anything.",
 };
 
