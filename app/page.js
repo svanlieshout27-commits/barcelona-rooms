@@ -58,10 +58,16 @@ export default async function Home() {
 
         <div className="hero-right">
           <div className="hero-mosaic">
-            <div className="mosaic-cell">
+            <a
+              className="mosaic-cell"
+              href="https://neighbourhoods-rho.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none', cursor: 'pointer' }}
+            >
               <span className="mosaic-icon">🗺️</span>
               <span className="mosaic-label">Neighbourhoods</span>
-            </div>
+            </a>
             <div className="mosaic-cell">
               <span className="mosaic-icon">🏢</span>
               <span className="mosaic-label">Rentals</span>
