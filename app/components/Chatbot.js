@@ -6,7 +6,7 @@ export default function Chatbot() {
 
   const [messages, setMessages] = useState([{
     role: 'bot',
-    text: 'Hola! I\'m SVL\'s assistant. Ask me anything about our rooms in Barcelona!'
+    text: 'Hola! Ask me anything about our rooms in Barcelona!'
   }])
 
   const [input, setInput] = useState('')
@@ -18,7 +18,6 @@ export default function Chatbot() {
   }, [messages])
 
   async function sendMessage() {
-
     if (!input.trim()) return
 
     const userMsg = input
@@ -35,54 +34,57 @@ export default function Chatbot() {
     const data = await res.json()
     setLoading(false)
     setMessages(prev => [...prev, { role: 'bot', text: data.reply }])
-
   }
 
   return (
-    <div className='border rounded-xl overflow-hidden flex flex-col h-96'>
+    <div className="barri-chat">
 
-      <div className='bg-gray-900 text-white p-4 text-sm font-medium'>
-        Ask our assistant anything
+      <div className="barri-chat-header">
+        <div className="barri-chat-avatar">🏠</div>
+        <div>
+          <p className="barri-chat-name">Barri Assistant</p>
+          <p className="barri-chat-status">
+            <span className="barri-chat-dot" />
+            Online
+          </p>
+        </div>
       </div>
 
-      <div className='flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50'>
-
+      <div className="barri-chat-messages">
         {messages.map((m, i) => (
           <div
             key={i}
-            className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            className={`barri-chat-bubble-wrap ${m.role === 'user' ? 'user' : ''}`}
           >
-            <div
-              className={`max-w-xs px-4 py-2 rounded-2xl text-sm ${
-                m.role === 'user'
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-white border text-gray-800'
-              }`}
-            >
+            <div className={`barri-chat-bubble ${m.role === 'user' ? 'user' : 'ai'}`}>
               {m.text}
             </div>
           </div>
         ))}
 
         {loading && (
-          <div className='text-gray-400 text-sm'>Thinking...</div>
+          <div className="barri-chat-bubble-wrap">
+            <div className="barri-chat-bubble ai typing">
+              <span /><span /><span />
+            </div>
+          </div>
         )}
 
         <div ref={bottomRef} />
-
       </div>
 
-      <div className='p-3 border-t flex gap-2'>
+      <div className="barri-chat-input-row">
         <input
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && sendMessage()}
-          placeholder='Type your question...'
-          className='flex-1 border rounded-lg px-3 py-2 text-sm'
+          placeholder="Ask about rooms, neighbourhoods…"
+          className="barri-chat-input"
         />
         <button
           onClick={sendMessage}
-          className='bg-orange-600 text-white px-4 py-2 rounded-lg text-sm'
+          disabled={loading || !input.trim()}
+          className="barri-chat-send"
         >
           Send
         </button>
@@ -90,5 +92,4 @@ export default function Chatbot() {
 
     </div>
   )
-
 }

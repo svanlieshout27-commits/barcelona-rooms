@@ -17,13 +17,7 @@ export default function EnquiryForm({ roomId, roomTitle }) {
     await fetch('/api/enquiry', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        email,
-        message,
-        roomId,
-        roomTitle
-      })
+      body: JSON.stringify({ name, email, message, roomId, roomTitle })
     })
 
     setLoading(false)
@@ -31,49 +25,44 @@ export default function EnquiryForm({ roomId, roomTitle }) {
   }
 
   if (sent) return (
-    <div className='bg-green-50 border border-green-200 rounded-xl p-6 text-center'>
-      <p className='text-green-700'>Thanks! I'll reply within 24 hours.</p>
-    </div>
+    <p className="barri-form-success">✓ Enquiry sent — we'll be in touch soon.</p>
   )
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-4'>
-
-      <h3 className='font-semibold'>Enquire about this room</h3>
+    <form onSubmit={handleSubmit}>
+      <p className="barri-form-title">Enquire about this room</p>
 
       <input
         required
-        placeholder='Your name'
+        placeholder="Your name"
         value={name}
         onChange={e => setName(e.target.value)}
-        className='w-full border rounded-lg p-3'
+        className="barri-input"
       />
 
       <input
         required
-        type='email'
-        placeholder='Your email'
+        type="email"
+        placeholder="Your email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        className='w-full border rounded-lg p-3'
+        className="barri-input"
       />
 
       <textarea
-        placeholder='Message (optional)'
+        placeholder="Message (optional)"
         value={message}
         onChange={e => setMessage(e.target.value)}
-        className='w-full border rounded-lg p-3 h-24'
+        className="barri-input barri-textarea"
       />
 
       <button
-        type='submit'
+        type="submit"
         disabled={loading}
-        className='w-full bg-orange-600 text-white py-3 rounded-lg font-medium disabled:opacity-50'
+        className="barri-btn-submit"
       >
-        {loading ? 'Sending...' : 'Send Enquiry'}
+        {loading ? 'Sending…' : 'Send Enquiry'}
       </button>
-
     </form>
   )
-
 }

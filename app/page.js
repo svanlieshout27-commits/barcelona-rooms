@@ -12,50 +12,76 @@ export default async function Home() {
     .order('created_at', { ascending: false })
 
   return (
-    <main className='max-w-6xl mx-auto p-8'>
+    <>
+      {/* ── NAV ── */}
+      <nav className="barri-nav">
+        <a href="/" className="barri-nav-logo">
+          Bar<span>ri</span>
+        </a>
+        <ul className="barri-nav-links">
+          <li>
+            <a
+              href="https://neighbourhoods-rho.vercel.app"
+              className="barri-nav-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Explore Barrios
+            </a>
+          </li>
+          <li>
+            <span className="barri-nav-link active">Rooms</span>
+          </li>
+        </ul>
+      </nav>
 
-      <div className='mb-8 pb-6 border-b'>
-        <p className='text-orange-600 font-semibold text-sm tracking-wide'>SVL</p>
-      </div>
+      {/* ── HERO ── */}
+      <section className="barri-hero">
+        <p className="barri-eyebrow">Hand-picked rooms</p>
+        <h1 className="barri-hero-title">
+          Find your room in<br />
+          <em>Barcelona</em>
+        </h1>
+        <p className="barri-hero-sub">
+          {rooms?.length ?? 0} curated rooms across Gràcia, Les Corts and beyond —
+          with an AI concierge to help you choose.
+        </p>
+      </section>
 
-      <h1 className='text-4xl font-bold mb-2'>Rooms in Barcelona</h1>
+      {/* ── MAIN GRID ── */}
+      <main className="barri-main">
 
-      <p className='text-gray-500 mb-10'>
-        Hand-picked rooms in the best neighbourhoods
-      </p>
-
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
-
-        <div className='space-y-6'>
-          {rooms?.map(room => (
-            <div key={room.id} className='border rounded-xl p-6 bg-white shadow'>
-
-              <div className='text-sm text-orange-600 font-medium mb-1'>
-                {room.neighbourhood}
+        {/* Left — Room listings */}
+        <div className="barri-rooms">
+          {rooms?.map((room, i) => (
+            <article
+              key={room.id}
+              className="barri-room-card"
+              style={{ animationDelay: `${i * 0.08}s` }}
+            >
+              <div className="barri-room-accent" />
+              <div className="barri-room-inner">
+                <p className="barri-room-neighbourhood">{room.neighbourhood}</p>
+                <h2 className="barri-room-title">{room.title}</h2>
+                <p className="barri-room-desc">{room.description}</p>
+                <span className="barri-room-price">
+                  €{room.price}
+                  <span className="barri-room-price-unit">/mo</span>
+                </span>
+                <div className="barri-room-divider">
+                  <EnquiryForm roomId={room.id} roomTitle={room.title} />
+                </div>
               </div>
-
-              <h2 className='text-xl font-semibold mb-2'>{room.title}</h2>
-
-              <p className='text-gray-600 mb-4'>{room.description}</p>
-
-              <span className='text-2xl font-bold'>€{room.price}/mo</span>
-
-              <div className='mt-6 pt-6 border-t'>
-                <EnquiryForm roomId={room.id} />
-              </div>
-
-            </div>
+            </article>
           ))}
         </div>
 
-        <div className='lg:sticky lg:top-8 h-fit'>
+        {/* Right — Sticky AI chat */}
+        <aside className="barri-chat-sticky">
           <Chatbot />
-        </div>
+        </aside>
 
-      </div>
-
-    </main>
+      </main>
+    </>
   )
-
 }
-```
